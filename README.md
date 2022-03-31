@@ -5,6 +5,10 @@
 原来一直用的 C++，但是在面试的过程中发现面试官更倾向于让应聘者使用 JavaScript。
 不仅考察算法，也考察了应聘者的 JS 功底 (而且作为一名前端，有些面试官很可能是不懂 C++的).
 
+## 前端需要了解的数据结构
+
+栈、队列、链表、Set、Map
+
 ## 栈和队列
 
 - [20.有效的括号](https://leetcode-cn.com/problems/valid-parentheses)
@@ -17,3 +21,12 @@
 - [206.反转链表](https://leetcode-cn.com/problems/reverse-linked-list)
 - [237.删除链表中的节点](https://leetcode-cn.com/problems/delete-node-in-a-linked-list)
 - [141.环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+
+## 双指针
+
+- [26.删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
+- [3.无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+
+## Set
+
+- [349.两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays/)
