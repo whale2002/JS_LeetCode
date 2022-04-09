@@ -1,4 +1,3 @@
-// 主要操作：插入、删除堆顶、获取堆顶、获取堆大小
 class MinHeap {
   constructor() {
     this.heap = []
@@ -22,25 +21,26 @@ class MinHeap {
     const parentIndex = this.getParentIndex(currentIndex)
     if (
       this.heap[parentIndex] &&
-      this.heap[parentIndex] > this.heap[currentIndex]
+      this.heap[parentIndex].val > this.heap[currentIndex].val
     ) {
       this.swap(parentIndex, currentIndex)
       this.shiftUp(parentIndex)
     }
+    
   }
   shiftDown(currentIndex) {
     const leftIndex = this.getLeftIndex(currentIndex)
     const rightIndex = this.getRightIndex(currentIndex)
     if (
       this.heap[leftIndex] &&
-      this.heap[leftIndex] < this.heap[currentIndex]
+      this.heap[leftIndex].val < this.heap[currentIndex].val
     ) {
       this.swap(leftIndex, currentIndex)
       this.shiftDown(leftIndex)
     }
     if (
       this.heap[rightIndex] &&
-      this.heap[rightIndex] < this.heap[currentIndex]
+      this.heap[rightIndex].val < this.heap[currentIndex].val
     ) {
       this.swap(rightIndex, currentIndex)
       this.shiftDown(rightIndex)
@@ -53,8 +53,11 @@ class MinHeap {
   }
   // 删除
   pop() {
+    if(this.size() === 1) return this.heap.shift()
+    const top = this.heap[0]
     this.heap[0] = this.heap.pop()
     this.shiftDown(0)
+    return top
   }
   // 获取堆大小
   size() {
@@ -65,12 +68,33 @@ class MinHeap {
     return this.heap[0]
   }
 }
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */
+const mergeKLists = function (lists) {
+  let heap = new MinHeap()
 
-const heap = new MinHeap()
+  lists.forEach((node) => {
+    node && heap.insert(node)
+  })
 
-heap.insert(3) // [2]
-heap.insert(2) // [2, 3]
-heap.insert(1) // [1, 3, 2]
-heap.pop() // [2, 3]
-heap.size() // 2
-heap.peek() // 2
+  let res = new ListNode() // 返回结果
+  let p = res
+
+  while(heap.size()) {
+    const tmp = heap.pop()
+    p.next = tmp
+    p = p.next
+    tmp.next && heap.insert(tmp.next)
+  }
+
+  return res.next
+}

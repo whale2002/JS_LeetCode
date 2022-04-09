@@ -1,10 +1,9 @@
-// 主要操作：插入、删除堆顶、获取堆顶、获取堆大小
 class MinHeap {
   constructor() {
     this.heap = []
   }
   getParentIndex(index) {
-    return (index - 1) >> 1 //表示右移1位，二进制中就是初2
+    return (index-1) >> 1   //表示右移1位，二进制中就是初2
   }
   getLeftIndex(index) {
     return 2 * index + 1
@@ -18,30 +17,21 @@ class MinHeap {
     this.heap[currentIndex] = tmp
   }
   shiftUp(currentIndex) {
-    if (currentIndex === 0) return
+    if(currentIndex === 0) return
     const parentIndex = this.getParentIndex(currentIndex)
-    if (
-      this.heap[parentIndex] &&
-      this.heap[parentIndex] > this.heap[currentIndex]
-    ) {
+    if(this.heap[parentIndex] > this.heap[currentIndex]) {
       this.swap(parentIndex, currentIndex)
-      this.shiftUp(parentIndex)
     }
+    this.shiftUp(parentIndex)
   }
   shiftDown(currentIndex) {
     const leftIndex = this.getLeftIndex(currentIndex)
     const rightIndex = this.getRightIndex(currentIndex)
-    if (
-      this.heap[leftIndex] &&
-      this.heap[leftIndex] < this.heap[currentIndex]
-    ) {
+    if(this.heap[leftIndex] < this.heap[currentIndex]) {
       this.swap(leftIndex, currentIndex)
       this.shiftDown(leftIndex)
     }
-    if (
-      this.heap[rightIndex] &&
-      this.heap[rightIndex] < this.heap[currentIndex]
-    ) {
+    if(this.heap[rightIndex] < this.heap[currentIndex]) {
       this.swap(rightIndex, currentIndex)
       this.shiftDown(rightIndex)
     }
@@ -65,12 +55,20 @@ class MinHeap {
     return this.heap[0]
   }
 }
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+const findKthLargest = function (nums, k) {
+  let res = new MinHeap()
 
-const heap = new MinHeap()
+  nums.forEach((num) => {
+    res.insert(num)
+    if (res.size() > k) res.pop()
+  })
 
-heap.insert(3) // [2]
-heap.insert(2) // [2, 3]
-heap.insert(1) // [1, 3, 2]
-heap.pop() // [2, 3]
-heap.size() // 2
-heap.peek() // 2
+  return res.peek()
+}
+
+findKthLargest([3, 2, 1, 5, 6, 4], 2)

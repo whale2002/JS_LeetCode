@@ -1,4 +1,3 @@
-// 主要操作：插入、删除堆顶、获取堆顶、获取堆大小
 class MinHeap {
   constructor() {
     this.heap = []
@@ -20,28 +19,20 @@ class MinHeap {
   shiftUp(currentIndex) {
     if (currentIndex === 0) return
     const parentIndex = this.getParentIndex(currentIndex)
-    if (
-      this.heap[parentIndex] &&
-      this.heap[parentIndex] > this.heap[currentIndex]
-    ) {
+    if (this.heap[parentIndex]?.value > this.heap[currentIndex]?.value) {
       this.swap(parentIndex, currentIndex)
-      this.shiftUp(parentIndex)
     }
+    this.shiftUp(parentIndex)
   }
   shiftDown(currentIndex) {
     const leftIndex = this.getLeftIndex(currentIndex)
     const rightIndex = this.getRightIndex(currentIndex)
-    if (
-      this.heap[leftIndex] &&
-      this.heap[leftIndex] < this.heap[currentIndex]
-    ) {
+
+    if (this.heap[leftIndex]?.value < this.heap[currentIndex]?.value) {
       this.swap(leftIndex, currentIndex)
       this.shiftDown(leftIndex)
     }
-    if (
-      this.heap[rightIndex] &&
-      this.heap[rightIndex] < this.heap[currentIndex]
-    ) {
+    if (this.heap[rightIndex]?.value < this.heap[currentIndex]?.value) {
       this.swap(rightIndex, currentIndex)
       this.shiftDown(rightIndex)
     }
@@ -66,11 +57,26 @@ class MinHeap {
   }
 }
 
-const heap = new MinHeap()
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+const topKFrequent = function (nums, k) {
+  let map = new Map()
 
-heap.insert(3) // [2]
-heap.insert(2) // [2, 3]
-heap.insert(1) // [1, 3, 2]
-heap.pop() // [2, 3]
-heap.size() // 2
-heap.peek() // 2
+  nums.forEach((num) => {
+    map.set(num, map.get(num) ? map.get(num) + 1 : 1)
+  })
+
+  let h = new MinHeap()
+
+  map.forEach((value, key) => {
+    h.insert({ key, value })
+    if (h.size() > k) h.pop()
+  })
+
+  return h.heap.map((item) => item.key).sort()
+}
+
+console.log(topKFrequent([-1, -1], 2))
