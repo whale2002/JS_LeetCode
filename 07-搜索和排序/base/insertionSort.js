@@ -1,4 +1,5 @@
 // 插入排序
+// 人话就是从第二个开始，一次往前插
 Array.prototype.insertionSort = function() {
   let length = this.length
   for(let i = 1; i < length; i++) {
