@@ -4,17 +4,28 @@
  */
 var permute = function (nums) {
   let res = []
+  let path = []
+  let used = new Array(nums.length).fill(false)
 
-  function backTrack(path) {
-    if(path.length === nums.length) res.push(path)
-    nums.forEach(num => {
-      if(path.includes(num)) return 
-      backTrack(path.concat(num))   // path.contact 返回值是数组
-    })
-  }
+  backTrack(nums, path, used)
 
-  backTrack([])
   return res
+
+  function backTrack(nums, path, used) {
+    if (path.length === nums.length) {
+      res.push([...path])
+      return
+    }
+
+    for (let i = 0; i < nums.length; i++) {
+      if (used[i]) continue
+      used[i] = true
+      path.push(nums[i])
+      backTrack(nums, path, used)
+      path.pop()
+      used[i] = false
+    }
+  }
 }
 
-console.log(permute([1,2,3]))
+console.log(permute([1, 2, 3]))
